@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Workout from './Pages/Workout';
+import Food from './Pages/Food';
+import Home from './Pages/Home';
+import { useState } from 'react';
 
 function App() {
+
+  const initialText = 'Click';
+  const changedText = 'Click 2';
+  const [buttonText, setButtonText] = useState(initialText);
+
+  function handleClick() {
+    if (buttonText === initialText) {
+      setButtonText(changedText);
+    } else {
+      setButtonText(initialText);
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route exact path="/minMax" element={<Home />} />
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/workout" element={<Workout />} />
+        <Route exact path="/food" element={<Food />} />
+      </Routes>
+
+      <button style={{ height: '100px', width: '100px' }} onClick={handleClick}>
+        {buttonText}
+      </button>
+
+    </Router>
   );
 }
 
