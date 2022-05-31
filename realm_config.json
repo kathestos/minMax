@@ -1,0 +1,8 @@
+{
+    "app_id": "minmaxdev-zsdnb",
+    "config_version": 20210101,
+    "name": "minmaxdev",
+    "location": "IE",
+    "deployment_model": "GLOBAL",
+    "environment": "development"
+}
