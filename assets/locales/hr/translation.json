@@ -3,5 +3,6 @@
   "retrieveexercise": "Dohvati jednu vježbu",
   "addexercise": "Dodaj novu vježbu",
   "welcome_to_react": "Dobrodošli u React",
-  "dynamic_value": "dinamična {{number}} vrijednost"
+  "dynamic_value": "dinamična {{number}} vrijednost",
+  "test": "test"
 }
