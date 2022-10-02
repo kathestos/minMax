@@ -1,23 +1,14 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Workout from './Pages/Workout';
-import Food from './Pages/Food';
-import Home from './Pages/Home';
-import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Workout from "./Pages/Workout";
+import Food from "./Pages/Food";
+import Home from "./Pages/Home";
+import Chest from "./Pages/Chest";
+import Legs from "./Pages/Legs";
+import Abs from "./Pages/Abs";
+import Configuration from "./Pages/Configuration";
+import "./Pages/Styles.css";
 
 function App() {
-
-  const initialText = 'Click';
-  const changedText = 'Click 2';
-  const [buttonText, setButtonText] = useState(initialText);
-
-  function handleClick() {
-    if (buttonText === initialText) {
-      setButtonText(changedText);
-    } else {
-      setButtonText(initialText);
-    }
-  }
-
   return (
     <Router>
       <Routes>
@@ -25,12 +16,11 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route exact path="/workout" element={<Workout />} />
         <Route exact path="/food" element={<Food />} />
+        <Route exact path="/chest" element={<Chest />} />
+        <Route exact path="/legs" element={<Legs />} />
+        <Route exact path="/abs" element={<Abs />} />
+        <Route exact path="/config" element={<Configuration />} />
       </Routes>
-
-      <button style={{ height: '100px', width: '100px' }} onClick={handleClick}>
-        {buttonText}
-      </button>
-
     </Router>
   );
 }

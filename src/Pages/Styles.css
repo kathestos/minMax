@@ -1,5 +1,91 @@
 .images {
-    flex: 1;
-    height: 100%;
-    width: 100%;
+  flex: 1;
+  height: 100%;
+  width: 100%;
+}
+.Collapsible__trigger {
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.Collapsible {
+  margin: 15px;
+}
+
+.list-item {
+  border-left: 1px black dashed;
+  border-bottom: 1px black dashed;
+  padding-left: 20px;
+  width: fit-content;
+  padding-right: 20px;
+}
+
+.exercise-description {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border: 1px solid black;
+}
+
+.image {
+  width: 200px;
+}
+
+.main-container {
+  max-height: 64%;
+  position: absolute;
+  overflow-y: auto;
+  width: -webkit-fill-available;
+  border: 1px solid black;
+}
+
+.Collapsible__contentInner > *:last-child {
+  margin-bottom: 7px;
+}
+
+.dock {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 34%;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+}
+
+.dock-image {
+  width: 90%;
+  margin: 10px;
+  max-height: 250px;
+  max-width: 250px;
+}
+
+.dock-description {
+  border: 1px solid black;
+  flex: auto;
+  margin: 10px;
+}
+
+.image-container {
+  width: 50%;
+}
+
+.field {
+  margin: auto;
+  display: inline;
+  color: grey;
+}
+
+.value {
+  margin: auto;
+  display: inline;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
