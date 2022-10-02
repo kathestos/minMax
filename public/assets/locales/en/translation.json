@@ -3,5 +3,6 @@
   "retrieveexercise": "Retrieve 1 Exercise",
   "addexercise": "Add new Exercise",
   "welcome_to_react": "Welcome to React and react-i18next",
-  "dynamic_value": "dynamic {{number}} value"
+  "dynamic_value": "dynamic {{number}} value",
+  "test": "test"
 }
