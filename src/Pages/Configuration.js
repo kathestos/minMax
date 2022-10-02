@@ -22,10 +22,12 @@ i18n
   });
 
 function Configuration() {
-
-    const { t } = useTranslation();
-    const number = new Date();
-    // https://www.youtube.com/watch?v=w04LXKlusCQ languages
+  const { t } = useTranslation();
+  const number = new Date();
+  if (t("test") === "test") {
+    window.location.reload();
+  }
+  // https://www.youtube.com/watch?v=w04LXKlusCQ languages
 
   return (
     <div>
