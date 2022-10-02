@@ -10,7 +10,7 @@ import "./Pages/Styles.css";
 
 function App() {
   return (
-    <Router basename="/minMax">
+    <Router>
       <Routes>
         <Route exact path="/minMax" element={<Home />} />
         <Route exact path="/" element={<Home />} />
