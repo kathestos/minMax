@@ -3,13 +3,42 @@
   height: 100%;
   width: 100%;
 }
+
 .Collapsible__trigger {
   border: 1px solid black;
   padding: 5px;
 }
 
+.fresh-item-container {
+  padding: 10px;
+}
+
+.fresh-item-container .Collapsible__trigger {
+  padding: 15px;
+}
+
+.main-container .fresh-item-container:first-child {
+  margin-top: 20px;
+}
+
+.Collapsible__contentInner .food-item-container:first-child {
+  margin-top: 50px;
+}
+
+.Collapsible__contentInner .food-item-container:last-child {
+  margin-bottom: 0px;
+}
+
 .Collapsible {
   margin: 15px;
+}
+
+.Collapsible__contentInner .fresh-item-container:first-child {
+  margin-top: 50px;
+}
+
+.Collapsible__contentInner .fresh-item-container:last-child {
+  margin-bottom: 0px;
 }
 
 .list-item {
@@ -32,7 +61,7 @@
 }
 
 .main-container {
-  max-height: 64%;
+  height: 64%;
   position: absolute;
   overflow-y: auto;
   width: -webkit-fill-available;
@@ -74,6 +103,7 @@
   margin: auto;
   display: inline;
   color: grey;
+  margin-left: 10px;
 }
 
 .value {
@@ -88,4 +118,28 @@ body::-webkit-scrollbar {
 body {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.test {
+  height: 300px;
+  border: 1px solid black;
+}
+
+.food-list-item {
+  padding-left: 10px;
+  width: fit-content;
+}
+
+.list-image {
+  height: 50px;
+  margin: 5px;
+  padding-left: 10px;
+}
+
+.food-item-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+  width: fit-content;
+  margin: 10px;
 }

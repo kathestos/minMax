@@ -1,43 +1,85 @@
-import { Grid } from '@mui/material';
-import './Styles.css';
+import { Grid } from "@mui/material";
+import "./Styles.css";
+import { Link } from "react-router-dom";
+import FoodDataService from "../Services/food";
+import IconsDataService from "../Services/icons";
+import React, { useState, useEffect } from "react";
 
 function Food() {
+  const [foodArray, setFoodArray] = useState([]);
+  const type = "voće";
 
-    const food = "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/jela_bsjyli.jpg";
-    const fresh = "https://res.cloudinary.com/mihael314/image/upload/v1657208959/ikone/svjeze_w4wt11.png";
-    const dried = "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/suseno_kbtw06.png";
-    const nuts = "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/orasasto_h5q1es.png";
-    const seeds = "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/sjemenke_wz60fw.png";
-    const berries = "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/bobice_clz2sl.png";
-    const misc = "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/ostalo_u8rng6.png";
+  useEffect(() => {
+    async function fetchFoodData() {
+      try {
+        setFoodArray(await getFoodArray());
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchFoodData();
+  }, []);
 
-    return (
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-            <Grid item xs={6} xl={3}>
-                <img className="images" src={food} alt="Logo" />
-            </Grid>
-            <Grid item xs={6} xl={3}>
-                <img className="images" src={fresh} alt="Logo" />
-            </Grid>
-            <Grid item xs={6} xl={3}>
-                <img className="images" src={dried} alt="Logo" />
-            </Grid>
-            <Grid item xs={6} xl={3}>
-                <img className="images" src={nuts} alt="Logo" />
-            </Grid>
-            <Grid item xs={6} xl={3}>
-                <img className="images" src={seeds} alt="Logo" />
-            </Grid>
-            <Grid item xs={6} xl={3}>
-                <img className="images" src={berries} alt="Logo" />
-            </Grid>
-            <Grid item xs={6} xl={3}>
-                <img className="images" src={misc} alt="Logo" />
-            </Grid>
-        </Grid>
+  const [iconsArray, setIconsArray] = useState([]);
 
-    );
+  useEffect(() => {
+    async function fetchIconsData() {
+      try {
+        setIconsArray(await getIconsArray());
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchIconsData();
+  }, []);
 
+  return (
+    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+      <Grid item xs={6} xl={3}>
+        <img className="images" src={iconsArray["jela"]} alt="" />
+      </Grid>
+      <Grid item xs={6} xl={3}>
+        <Link to={`/foods?type=${type}&subtype=svježe`}>
+          <img className="images" src={iconsArray["svježe"]} alt="" />
+        </Link>
+      </Grid>
+      <Grid item xs={6} xl={3}>
+        <Link to={`/foods?type=${type}&subtype=${foodArray[5]}`}>
+          <img className="images" src={iconsArray[foodArray[5]]} alt="" />
+        </Link>
+      </Grid>
+      <Grid item xs={6} xl={3}>
+        <Link to={`/foods?type=${type}&subtype=${foodArray[2]}`}>
+          <img className="images" src={iconsArray[foodArray[2]]} alt="" />
+        </Link>
+      </Grid>
+      <Grid item xs={6} xl={3}>
+        <Link to={`/foods?type=${type}&subtype=${foodArray[4]}`}>
+          <img className="images" src={iconsArray[foodArray[4]]} alt="" />
+        </Link>
+      </Grid>
+      <Grid item xs={6} xl={3}>
+        <Link to={`/foods?type=${type}&subtype=${foodArray[0]}`}>
+          <img className="images" src={iconsArray[foodArray[0]]} alt="" />
+        </Link>
+      </Grid>
+      <Grid item xs={6} xl={3}>
+      <Link to={`/`}>
+        <img className="images" src={iconsArray[foodArray[3]]} alt="" />
+        </Link>
+      </Grid>
+    </Grid>
+  );
+}
+
+async function getFoodArray() {
+  const arr = await FoodDataService.getSubtypes();
+  return arr.data;
+}
+
+async function getIconsArray() {
+  const arr = await IconsDataService.getAll();
+  return arr.data;
 }
 
 export default Food;

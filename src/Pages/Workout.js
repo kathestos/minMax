@@ -1,52 +1,58 @@
 import { Grid } from "@mui/material";
 import "./Styles.css";
-import React from "react";
 import { Link } from "react-router-dom";
+import IconsDataService from "../Services/icons";
+import React, { useState, useEffect } from "react";
 
 function Workout() {
-  const train =
-    "https://res.cloudinary.com/mihael314/image/upload/v1657208959/ikone/trening_fyhtxp.jpg";
-  const pushup =
-    "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/sklek_i4kabp.jpg";
-  const skills =
-    "https://res.cloudinary.com/mihael314/image/upload/v1657208959/ikone/vjestine_z5gpiq.png";
-  const legs =
-    "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/noge_v7i8a9.jpg";
-  const abs =
-    "https://res.cloudinary.com/mihael314/image/upload/v1657208959/ikone/trbuh_q7jkxl.jpg";
-  const empty =
-    "https://res.cloudinary.com/mihael314/image/upload/v1664203987/ikone/empty_pnufum.jpg";
+  const [iconsArray, setIconsArray] = useState([]);
+
+  useEffect(() => {
+    async function fetchIconsData() {
+      try {
+        setIconsArray(await getIconsArray());
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchIconsData();
+  }, []);
 
   return (
     <div>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6} xl={3}>
-          <img className="images" src={train} alt="Logo" />
+          <img className="images" src={iconsArray["trening"]} alt="" />
         </Grid>
         <Grid item xs={6} xl={3}>
-          <Link to="/chest">
-            <img className="images" src={pushup} alt="Logo" />
+          <Link to="/workouts?type=prsa">
+            <img className="images" src={iconsArray["prsa"]} alt="" />
           </Link>
         </Grid>
         <Grid item xs={6} xl={3}>
-          <img className="images" src={skills} alt="Logo" />
+          <img className="images" src={iconsArray["vještine"]} alt="" />
         </Grid>
         <Grid item xs={6} xl={3}>
-          <Link to="/legs">
-            <img className="images" src={legs} alt="Logo" />
+          <Link to="/workouts?type=noge">
+            <img className="images" src={iconsArray["noge"]} alt="" />
           </Link>
         </Grid>
         <Grid item xs={6} xl={3}>
-          <img className="images" src={empty} alt="Logo" />
+          <img className="images" src={iconsArray["prazna"]} alt="" />
         </Grid>
         <Grid item xs={6} xl={3}>
-          <Link to="/abs">
-            <img className="images" src={abs} alt="Logo" />
+          <Link to="/workouts?type=trbuh">
+            <img className="images" src={iconsArray["trbuh"]} alt="" />
           </Link>
         </Grid>
       </Grid>
     </div>
   );
+}
+
+async function getIconsArray() {
+  const arr = await IconsDataService.getAll();
+  return arr.data;
 }
 
 export default Workout;

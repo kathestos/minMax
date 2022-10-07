@@ -1,57 +1,64 @@
 import { Grid } from "@mui/material";
 import "./Styles.css";
 import { Link } from "react-router-dom";
+import IconsDataService from "../Services/icons";
+import React, { useState, useEffect } from "react";
 
 function Home() {
-  const logo =
-    "https://res.cloudinary.com/mihael314/image/upload/v1664131445/ikone/new_logo_mluw8m.jpg";
-  const exer =
-    "https://res.cloudinary.com/mihael314/image/upload/v1657208959/ikone/vjezbe_fiwapl.jpg";
-  const food =
-    "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/hrana_sttoeh.jpg";
-  const todo =
-    "https://res.cloudinary.com/mihael314/image/upload/v1657208959/ikone/todo_z95twc.png";
-  const philo =
-    "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/fi_orpiet.png";
-  const posses =
-    "https://res.cloudinary.com/mihael314/image/upload/v1657208958/ikone/posjed_ifqyiw.png";
+  const [iconsArray, setIconsArray] = useState([]);
+
+  useEffect(() => {
+    async function fetchIconsData() {
+      try {
+        setIconsArray(await getIconsArray());
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchIconsData();
+  }, []);
 
   return (
     <div className="home-container">
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6} xl={3}>
           <Link to="/config">
-            <img className="images" src={logo} alt="Logo" />
+            <img className="images" src={iconsArray["novi logo"]} alt="" />
           </Link>
         </Grid>
         <Grid item xs={6} xl={3}>
           <Link to="/workout">
-            <img className="images" src={exer} alt="Logo" />
+            <img className="images" src={iconsArray["vježbe"]} alt="" />
           </Link>
         </Grid>
         <Grid item xs={6} xl={3}>
           <Link to="/food">
-            <img className="images" src={food} alt="Logo" />
+            <img className="images" src={iconsArray["hrana"]} alt="" />
           </Link>
         </Grid>
         <Grid item xs={6} xl={3}>
           <Link to="/food">
-            <img className="images" src={todo} alt="Logo" />
+            <img className="images" src={iconsArray["todo"]} alt="" />
           </Link>
         </Grid>
         <Grid item xs={6} xl={3}>
           <Link to="/food">
-            <img className="images" src={philo} alt="Logo" />
+            <img className="images" src={iconsArray["fi"]} alt="" />
           </Link>
         </Grid>
         <Grid item xs={6} xl={3}>
           <Link to="/food">
-            <img className="images" src={posses} alt="Logo" />
+            <img className="images" src={iconsArray["posjed"]} alt="" />
           </Link>
         </Grid>
       </Grid>
     </div>
   );
+}
+
+async function getIconsArray() {
+  const arr = await IconsDataService.getAll();
+  return arr.data;
 }
 
 export default Home;
