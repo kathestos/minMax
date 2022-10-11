@@ -5,6 +5,10 @@ import IconsDataService from "../Services/icons";
 import React, { useState, useEffect } from "react";
 
 function Home() {
+  if (!localStorage.getItem("token")) {
+    window.location = "/minMax/login";
+  }
+
   const [iconsArray, setIconsArray] = useState([]);
 
   useEffect(() => {

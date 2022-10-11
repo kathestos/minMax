@@ -22,6 +22,10 @@ i18n
   });
 
 function Configuration() {
+  if (!localStorage.getItem("token")) {
+    window.location = "/minMax/login";
+  }
+
   const { t } = useTranslation();
   const number = new Date();
   if (t("test") === "test") {
@@ -56,8 +60,16 @@ function Configuration() {
       >
         hr
       </button>
+      <button className="logout" onClick={logout}>
+        logout
+      </button>
     </div>
   );
+}
+
+function logout() {
+  localStorage.clear();
+  window.location = "/minMax/login";
 }
 
 export default Configuration;

@@ -5,19 +5,22 @@ import Home from "./Pages/Home";
 import Workouts from "./Pages/Workouts";
 import Configuration from "./Pages/Configuration";
 import Foods from "./Pages/Foods";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
 import "./Pages/Styles.css";
 
 function App() {
   return (
     <Router basename="/minMax">
       <Routes>
-        <Route exact path="/minMax" element={<Home />} />
         <Route exact path="/" element={<Home />} />
         <Route exact path="/workout" element={<Workout />} />
         <Route exact path="/food" element={<Food />} />
         <Route exact path="/workouts" element={<Workouts />} />
         <Route exact path="/config" element={<Configuration />} />
         <Route exact path="/foods" element={<Foods />} />
+        <Route exact path="/login" element={<Login />} />
+        <Route exact path="/register" element={<Register />} />
       </Routes>
     </Router>
   );
