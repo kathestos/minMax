@@ -10,11 +10,14 @@ function Home() {
   }
 
   const [iconsArray, setIconsArray] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchIconsData() {
       try {
+        setLoading(true);
         setIconsArray(await getIconsArray());
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -23,7 +26,7 @@ function Home() {
   }, []);
 
   return (
-    <div className="home-container">
+    <div className={isLoading ? "home-container op0" : "home-container"}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6} xl={3}>
           <Link to="/config">

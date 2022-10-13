@@ -6,11 +6,14 @@ import React, { useState, useEffect } from "react";
 
 function Workout() {
   const [iconsArray, setIconsArray] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     async function fetchIconsData() {
       try {
+        setLoading(true);
         setIconsArray(await getIconsArray());
+        setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -19,7 +22,7 @@ function Workout() {
   }, []);
 
   return (
-    <div>
+    <div className={isLoading ? "op0" : ""}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6} xl={3}>
           <img className="images" src={iconsArray["trening"]} alt="" />
