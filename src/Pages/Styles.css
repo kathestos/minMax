@@ -215,3 +215,32 @@ body {
   font-size: 20px;
   text-align: center;
 }
+
+.exercises-list {
+  height: 14vh;
+  overflow-y: auto;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.exercises-list::-webkit-scrollbar {
+  display: none;
+}
+
+.exercises-items {
+  padding: 0px;
+  margin: 5px;
+  border-bottom: 1px dashed black;
+  width: 100%;
+  text-align: center;
+}
+
+.selected-item {
+  background-color: lightgray;
+}
+
+.unselected-items {
+  background-color: white;
+}

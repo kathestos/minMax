@@ -47,7 +47,7 @@ function Register() {
           required
           className="input"
         />
-        <button type="submit" className="submit">
+        <button type="submit" className="submit" disabled>
           register
         </button>
         {error && <div className="error_msg">{error}</div>}
