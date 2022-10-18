@@ -230,7 +230,7 @@ body {
 }
 
 .exercises-items {
-  padding: 10px;
+  /* padding: 10px; */
   margin: 0px;
   border-bottom: 1px dashed black;
   width: 100%;
@@ -270,5 +270,6 @@ body {
 
 .train-button {
   height: 5vh;
-  width: 5vh;
+  width: -webkit-fill-available;
+  margin: 3px;
 }

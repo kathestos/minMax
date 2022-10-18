@@ -147,20 +147,25 @@ async function fetchLabels() {
   const ret = flat.map((x) => {
     return x.substring(x.indexOf("-") + 1);
   });
-  const buttons = createButtons(reorder.length);
+  const buttons = createButtons(reorder.length, ret.length);
   return [ret, reorder, buttons];
 }
 
-function createButtons(types) {
+function createButtons(types, subtypes) {
   let buttons = [];
   for (let i = 0; i < types; i++) {
     buttons.push(
-      <button className="train-button" key={`+1${i}`}>
+      <button
+        className="train-button"
+        key={`+1${i}`}
+        id={`+1${i}`}
+        onClick={() => plusOne(i, subtypes / types)}
+      >
         +1
       </button>
     );
     buttons.push(
-      <button className="train-button" key={`G${i}`}>
+      <button className="train-button" key={`G${i}`} id={`G${i}`}>
         G
       </button>
     );
@@ -186,6 +191,69 @@ function startButtons() {
     </button>
   );
   return buttons;
+}
+
+async function plusOne(i, j) {
+  let itemArray = [];
+  for (let x = 0; x < j; x++) {
+    const id = j * i + x;
+    itemArray.push(id);
+  }
+
+  var elements = document.getElementsByClassName("selected-item");
+  let idsToChange = [];
+  for (const el of elements) {
+    const id = el.id;
+    const subtype = parseInt(
+      id.substring(id.indexOf("-") + 1, id.lastIndexOf("-"))
+    );
+    const index = parseInt(id.substring(id.lastIndexOf("-") + 1));
+    if (itemArray.includes(subtype)) {
+      const idx = `ex-${subtype}-${index + 1}`;
+      idsToChange.push(idx);
+    }
+  }
+
+  idsToChange.forEach((ele) => {
+    const x = parseInt(
+      ele.substring(ele.indexOf("-") + 1, ele.lastIndexOf("-"))
+    );
+    const y = parseInt(ele.substring(ele.lastIndexOf("-") + 1));
+    const oldId = `ex-${x}-${y - 1}`;
+    const ex = document.getElementById(ele);
+    const old = document.getElementById(oldId);
+    if (ex !== null) {
+      ex.classList.remove("unselected-items");
+      ex.classList.add("selected-item");
+      old.classList.remove("selected-item");
+      old.classList.add("unselected-items");
+    } else {
+      const newId = `ex-${x}-${0}`;
+      const newEL = document.getElementById(newId);
+      newEL.classList.remove("unselected-items");
+      newEL.classList.add("selected-item");
+      old.classList.remove("selected-item");
+      old.classList.add("unselected-items");
+    }
+  });
+
+  var newElements = document.getElementsByClassName("selected-item");
+  let newArray = [];
+  for (const ne of newElements) {
+    newArray.push(ne.id);
+  }
+  var customSort = function (a, b) {
+    return Number(a.match(/(\d+)/g)[0]) - Number(b.match(/(\d+)/g)[0]);
+  };
+  console.log(newArray.sort(customSort));
+
+  let result = [];
+  for (const nx of newArray) {
+    const end = parseInt(nx.substring(nx.lastIndexOf("-") + 1));
+    result.push(end);
+  }
+
+  await TrainingDataService.setArray(result);
 }
 
 export default ExercisesOverview;
