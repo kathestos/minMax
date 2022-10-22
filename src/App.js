@@ -8,6 +8,7 @@ import Foods from "./Pages/Foods";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import ExercisesOverview from "./Pages/ExercisesOverview";
+import Training from "./Pages/Training";
 import "./Pages/Styles.css";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/exoverview" element={<ExercisesOverview />} />
+        <Route exact path="/train" element={<Training />} />
       </Routes>
     </Router>
   );

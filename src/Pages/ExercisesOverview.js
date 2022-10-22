@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import ExerciseDataService from "../Services/exercises";
 import TrainingDataService from "../Services/training";
+import { Link } from "react-router-dom";
 
 function ExercisesOverview() {
   const [elements, setElements] = useState([]);
@@ -165,9 +166,11 @@ function createButtons(types, subtypes) {
       </button>
     );
     buttons.push(
-      <button className="train-button" key={`G${i}`} id={`G${i}`}>
-        G
-      </button>
+      <Link to={`/train?id=${i}`} key={`G${i}`} className="train-button">
+        <button id={`G${i}`} className="generate-button">
+          G
+        </button>
+      </Link>
     );
   }
   return buttons;

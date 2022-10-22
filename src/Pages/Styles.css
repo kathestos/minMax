@@ -273,3 +273,46 @@ body {
   width: -webkit-fill-available;
   margin: 3px;
 }
+
+.generate-button {
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+}
+
+.train-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.train-title {
+  text-align: center;
+}
+
+.train-gif {
+  max-width: 500px;
+  width: 100%;
+  margin: 10px;
+  border: 1px solid black;
+  align-items: center;
+}
+
+.MuiSlider-colorPrimary {
+  color: black !important;
+}
+
+.slider-container {
+  margin: 5px 20px 5px 20px;
+  width: -webkit-fill-available;
+}
+
+.player-buttons {
+  display: flex;
+  height: 12vh;
+}
+
+.player-button {
+  height: 100%;
+  width: auto;
+}
