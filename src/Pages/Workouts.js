@@ -146,6 +146,7 @@ async function getFields(type) {
   fields.splice(fields.indexOf("_id"), 1);
   fields.splice(fields.indexOf("order"), 1);
   fields.splice(fields.indexOf("URL"), 1);
+  fields.splice(fields.indexOf("sound"), 1);
   return fields;
 }
 
