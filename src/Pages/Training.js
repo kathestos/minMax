@@ -1,6 +1,6 @@
 import "./Styles.css";
 // import IconsDataService from "../Services/icons";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Slider } from "@mui/material";
 import ReactAudioPlayer from "react-audio-player";
@@ -8,6 +8,9 @@ import ExerciseDataService from "../Services/exercises";
 
 function Training() {
   GetQuery();
+
+  const isPlaying = useRef(false);
+  const durationStarted = useRef(false);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const changeCurrentIndex = (i) => {
@@ -47,7 +50,8 @@ function Training() {
         const [list, playlist] = await getList(
           pause,
           changeCurrentSound,
-          changeMaxSlider
+          changeMaxSlider,
+          pause10
         );
         setList([list, playlist]);
         setTotalDuration(await getTotalDuration(playlist));
@@ -57,6 +61,11 @@ function Training() {
     }
     fetchList();
   }, []);
+
+  const [currentTotalDuration, setCurrentTotalDuration] = useState(0);
+  const changeCurrentTotalDuration = (x) => {
+    setCurrentTotalDuration(x);
+  };
 
   const description = "description";
   const nextImg =
@@ -69,6 +78,8 @@ function Training() {
     "https://res.cloudinary.com/mihael314/image/upload/v1666293302/ikone/play_o1r0ey.png";
   const pause =
     "https://res.cloudinary.com/mihael314/video/upload/v1666530568/zvukovi/5s_pauza_f4gb1u.mp3";
+  const pause10 =
+    "https://res.cloudinary.com/mihael314/video/upload/v1666530568/zvukovi/10s_pauza_zrnsmk.mp3";
 
   return (
     <div className="train-container">
@@ -112,17 +123,40 @@ function Training() {
       />
 
       <div className="player-buttons">
-        <img className="player-button" src={previousImg} alt=""></img>
+        <img
+          className="player-button"
+          src={previousImg}
+          alt=""
+          onClick={() =>
+            playPrevious(playlist, currentIndex, changeCurrentIndex, playImg)
+          }
+        ></img>
         <img
           className="player-button"
           onClick={(e) =>
-            playPause(e, playImg, pauseImg, changeMaxSlider, totalDuration)
+            playPause(
+              e,
+              playImg,
+              pauseImg,
+              changeMaxSlider,
+              totalDuration,
+              isPlaying,
+              durationStarted,
+              changeCurrentTotalDuration
+            )
           }
           src={playImg}
           alt=""
           id="play-pause"
         ></img>
-        <img className="player-button" src={nextImg} alt=""></img>
+        <img
+          className="player-button"
+          src={nextImg}
+          alt=""
+          onClick={(e) =>
+            playNext(e, playlist, currentIndex, changeCurrentIndex, playImg)
+          }
+        ></img>
       </div>
       <div className="list-desc">
         <div className="list" id="list">
@@ -132,7 +166,7 @@ function Training() {
       </div>
       <div className="progress-container">
         <div className="progress-time" id="duration">
-          0:00
+          {currentTotalDuration}
         </div>
         <div className="progress-bar" id="duration">
           <div className="progress" id="progress"></div>
@@ -149,12 +183,29 @@ function Training() {
   );
 }
 
-async function playPause(e, playImg, pauseImg, changeMaxSlider, totalDuration) {
+async function playPause(
+  e,
+  playImg,
+  pauseImg,
+  changeMaxSlider,
+  totalDuration,
+  isPlaying,
+  durationStarted,
+  changeCurrentTotalDuration
+) {
   if (e.target.src === playImg) {
     e.target.src = pauseImg;
-    await play(changeMaxSlider, totalDuration);
+    isPlaying.current = true;
+    await play(
+      changeMaxSlider,
+      totalDuration,
+      isPlaying,
+      durationStarted,
+      changeCurrentTotalDuration
+    );
   } else {
     e.target.src = playImg;
+    isPlaying.current = false;
     pause();
   }
 }
@@ -166,7 +217,13 @@ function GetQuery() {
   return parseInt(id);
 }
 
-async function play(changeMaxSlider, totalDuration) {
+async function play(
+  changeMaxSlider,
+  totalDuration,
+  isPlaying,
+  durationStarted,
+  changeCurrentTotalDuration
+) {
   const player = document.getElementById("player");
   player.play();
   const dur = parseFloat(player.duration).toFixed(2);
@@ -176,7 +233,10 @@ async function play(changeMaxSlider, totalDuration) {
   duration.innerHTML = dur;
   const firstItem = document.getElementById("list").firstChild;
   firstItem.classList.add("current-item");
-  progress(totalDuration);
+  if (!durationStarted.current) {
+    progress(totalDuration, isPlaying, changeCurrentTotalDuration);
+  }
+  durationStarted.current = true;
 }
 
 async function pause() {
@@ -195,8 +255,8 @@ function listen(e, changeSlider, changeMaxSlider, changeCurrentTime) {
   }
 }
 
-function progress(totalDuration) {
-  let i = 0;
+function progress(totalDuration, isPlaying, changeCurrentTotalDuration) {
+  let i = 1;
   const f = setInterval(fun, 1000);
   function fun() {
     const progress = document.getElementById("progress");
@@ -204,12 +264,15 @@ function progress(totalDuration) {
       clearInterval(f);
       return;
     }
-    progress.style.width = (i / totalDuration) * 100 + "%";
-    i++;
+    if (isPlaying.current) {
+      progress.style.width = (i / totalDuration) * 100 + "%";
+      changeCurrentTotalDuration(i);
+      i++;
+    }
   }
 }
 
-async function getList(pause, changeCurrentSound, changeMaxSlider) {
+async function getList(pause, changeCurrentSound, changeMaxSlider, pause10) {
   const query = `?type=noge&subtype=zagrijavanje`;
   const exercises = await ExerciseDataService.getFiltered(query);
   let list = [];
@@ -221,8 +284,9 @@ async function getList(pause, changeCurrentSound, changeMaxSlider) {
         {item.name}
       </p>
     );
-    playlist.push(item.sound);
+    // playlist.push(item.sound); // TODO CHANGE
     playlist.push(pause);
+    playlist.push(pause10);
   }
   changeCurrentSound(playlist[1]);
   const dur = document.getElementById("player").duration;
@@ -244,8 +308,11 @@ async function playNext(
   playImg
 ) {
   if (currentIndex < playlist.length) {
-    await changeCurrentIndex(currentIndex + 1);
-    e.target.src = playlist[currentIndex];
+    currentIndex++;
+    await changeCurrentIndex(currentIndex);
+    const player = document.getElementById("player");
+    // e.target.src = playlist[currentIndex];
+    player.src = playlist[currentIndex];
     const nodeList = document.getElementById("list").childNodes;
     for (const child of nodeList) {
       child.classList.remove("current-item");
@@ -253,7 +320,33 @@ async function playNext(
     if (nodeList[currentIndex]) {
       nodeList[currentIndex].classList.add("current-item");
     }
-    e.target.play();
+    // e.target.play();
+    player.play();
+  } else {
+    changeCurrentIndex(0);
+    document.getElementById("play-pause").src = playImg;
+  }
+}
+
+async function playPrevious(
+  playlist,
+  currentIndex,
+  changeCurrentIndex,
+  playImg
+) {
+  if (currentIndex > 0) {
+    currentIndex--;
+    await changeCurrentIndex(currentIndex);
+    const player = document.getElementById("player");
+    player.src = playlist[currentIndex];
+    const nodeList = document.getElementById("list").childNodes;
+    for (const child of nodeList) {
+      child.classList.remove("current-item");
+    }
+    if (nodeList[currentIndex]) {
+      nodeList[currentIndex].classList.add("current-item");
+    }
+    player.play();
   } else {
     changeCurrentIndex(0);
     document.getElementById("play-pause").src = playImg;
