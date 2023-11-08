@@ -119,7 +119,7 @@ async function getEx() {
 }
 
 function indexes(i) {
-  return (i % 3) * 6 + Math.floor(i / 3); // Maybe set dynamically
+  return (i % 3) * 6 + Math.floor(i / 3); // TODO set dynamically
 }
 
 async function setTraining() {
@@ -148,25 +148,26 @@ async function fetchLabels() {
   const ret = flat.map((x) => {
     return x.substring(x.indexOf("-") + 1);
   });
-  const buttons = createButtons(reorder.length, ret.length);
+  const buttons = createButtons(reorder, ret.length);
   return [ret, reorder, buttons];
 }
 
 function createButtons(types, subtypes) {
+  const typesCount = types.length;
   let buttons = [];
-  for (let i = 0; i < types; i++) {
+  for (let i = 0; i < typesCount; i++) {
     buttons.push(
       <button
         className="train-button"
         key={`+1${i}`}
         id={`+1${i}`}
-        onClick={() => plusOne(i, subtypes / types)}
+        onClick={() => plusOne(i, subtypes / typesCount)}
       >
         +1
       </button>
     );
     buttons.push(
-      <Link to={`/train?id=${i}`} key={`G${i}`} className="train-button">
+      <Link to={`/train?id=${types[i]}`} key={`G${i}`} className="train-button">
         <button id={`G${i}`} className="generate-button">
           G
         </button>

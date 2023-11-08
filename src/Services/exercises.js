@@ -9,6 +9,10 @@ class ExerciseDataService {
     getDistinct(dist) {
         return http.get(`/distinctExercises${dist}`);
     }
+
+    getDistinctNonStrength(dist) {
+        return http.get(`/distinctNonStrength${dist}`);
+    }
 }
 
 export default new ExerciseDataService();

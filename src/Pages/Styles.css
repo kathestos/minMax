@@ -394,6 +394,12 @@ body {
   padding: 0px;
 }
 
+.train-list-subtype {
+  margin: 0px;
+  padding: 0px;
+  border: 1px black dashed;
+}
+
 .current-item {
   background-color: lightgrey;
 }

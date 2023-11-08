@@ -5,7 +5,7 @@ import IconsDataService from "../Services/icons";
 import React, { useState, useEffect } from "react";
 
 function Workouts() {
-  const cat = ["zagrijavanje", "razgibavanje", "snaga", "rastezanje"];
+  const cat = ["zagrijavanje", "razgibavanje", "snaga", "rastezanje"]; // TODO replace
   const type = getQuery();
   const warmUpElements = retrieveExercises(`?subtype=${cat[0]}&type=`, type);
   const limberUpElements = retrieveExercises(`?subtype=${cat[1]}&type=`, type);
