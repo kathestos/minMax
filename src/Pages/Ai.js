@@ -61,7 +61,7 @@ function Ai() {
       />
       <input
         type="text"
-        value={process.env.REACT_APP_API_KEY}
+        value={process.env.API_KEY}
         readOnly
         style={fieldStyle}
       />
