@@ -9,6 +9,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import ExercisesOverview from "./Pages/ExercisesOverview";
 import Training from "./Pages/Training";
+import Ai from "./Pages/Ai";
 import "./Pages/Styles.css";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/exoverview" element={<ExercisesOverview />} />
         <Route exact path="/train" element={<Training />} />
+        <Route exact path="/ai" element={<Ai />} />
       </Routes>
     </Router>
   );

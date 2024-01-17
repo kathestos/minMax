@@ -58,6 +58,12 @@ function Home() {
             <img className="images" src={iconsArray["posjed"]} alt="" />
           </Link>
         </Grid>
+        <Grid item xs={6} xl={3}>
+          <Link to="/ai">
+            <img className="images" src={"https://res.cloudinary.com/mihael314/image/upload/v1705485900/ikone/OIG_seyfdk.jpg"} alt="" />
+            {/* TODO REPLACE */}
+          </Link>
+        </Grid>
       </Grid>
     </div>
   );
