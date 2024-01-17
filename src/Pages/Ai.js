@@ -12,7 +12,6 @@ function Ai() {
   const handleClick = (e) => {
     const count = input.length;
     setOutput(count + input + input);
-    console.log(secrets);
   };
 
   const containerStyle = {
@@ -61,7 +60,7 @@ function Ai() {
       />
       <input
         type="text"
-        value={secrets.API_KEY}
+        value={localStorage.getItem("token")}
         readOnly
         style={fieldStyle}
       />
