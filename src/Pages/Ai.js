@@ -12,7 +12,7 @@ function Ai() {
   const handleClick = (e) => {
     const count = input.length;
     setOutput(count + input + input);
-    console.log(process.env);
+    console.log(secrets);
   };
 
   const containerStyle = {
@@ -61,7 +61,7 @@ function Ai() {
       />
       <input
         type="text"
-        value={process.env.API_KEY}
+        value={secrets.API_KEY}
         readOnly
         style={fieldStyle}
       />
