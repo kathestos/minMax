@@ -12,7 +12,7 @@ function Ai() {
   const handleClick = (e) => {
     const count = input.length;
     setOutput(count + input + input);
-    // console.log(process.env.REACT_APP_API_KEY);
+    console.log(process.env);
   };
 
   const containerStyle = {
