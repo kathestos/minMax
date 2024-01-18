@@ -28,6 +28,7 @@ function Home() {
       setLoading("");
     } else {
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", data.username);
       window.location = "/minMax";
     }
   };

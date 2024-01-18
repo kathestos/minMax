@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SecretsDataService from "../Services/secrets";
 
 function Ai() {
   const [input, setInput] = useState("");
@@ -9,9 +10,13 @@ function Ai() {
     setInput(value);
   };
 
-  const handleClick = (e) => {
-    const count = input.length;
-    setOutput(count + input + input);
+  const handleClick = async (e) => {
+    console.log(localStorage.token);
+    console.log(localStorage.user);
+    const secretName = "api key";
+    const secret = await SecretsDataService.get(`?name=${secretName}`);
+    setOutput(secret.data);
+    console.log(secret.data);
   };
 
   const containerStyle = {
@@ -44,26 +49,11 @@ function Ai() {
 
   return (
     <div style={containerStyle}>
-      <textarea
-        value={input}
-        onChange={handleChange}
-        style={fieldStyle}
-      />
+      <textarea value={input} onChange={handleChange} style={fieldStyle} />
       <button onClick={handleClick} style={buttonStyle}>
         Go
       </button>
-      <textarea
-        type="text"
-        value={output}
-        readOnly
-        style={fieldStyle}
-      />
-      <input
-        type="text"
-        value={localStorage.getItem("token")}
-        readOnly
-        style={fieldStyle}
-      />
+      <textarea type="text" value={output} readOnly style={fieldStyle} />
     </div>
   );
 }

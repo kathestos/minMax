@@ -47,7 +47,8 @@ function Register() {
           required
           className="input"
         />
-        <button type="submit" className="submit" disabled>
+        {/* TODO disabled? */}
+        <button type="submit" className="submit" >
           register
         </button>
         {error && <div className="error_msg">{error}</div>}
