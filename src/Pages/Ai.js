@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import SecretsDataService from "../Services/secrets";
 import OpenAI from "openai";
 import TextareaAutosize from "react-textarea-autosize";
@@ -8,14 +8,23 @@ function Ai() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [conversation, setConversation] = useState([]);
-  let messages = [];
+  const [selected, setSelected] = useState("gpt-3.5-turbo-1106");
+  const cancel = useRef(false);
 
-  const handleChange = (e) => {
+  let messages = [];
+  const options = ["gpt-3.5-turbo-1106", "gpt-4-1106-preview", "gpt-5"];
+
+  const handleInputChange = (e) => {
     const value = e.target.value;
     setInput(value);
   };
 
+  const handleModelChange = (event) => {
+    setSelected(event.target.value);
+  };
+
   const handleClick = async (e) => {
+    cancel.current = false;
     messages = conversation;
     messages.push({ role: "user", content: input });
     setConversation(messages);
@@ -31,8 +40,7 @@ function Ai() {
         dangerouslyAllowBrowser: true,
       });
       const stream = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo-1106",
-        // model: "gpt-4-1106-preview",
+        model: selected,
         messages: conversation,
         stream: true,
       });
@@ -40,12 +48,20 @@ function Ai() {
         let part = chunk.choices[0]?.delta?.content || "";
         text += part;
         setOutput(text);
+        if (cancel.current) {
+          stream.controller.abort();
+        }
       }
     } else {
       setOutput("Wrong user");
     }
     messages.push({ role: "assistant", content: text });
     setConversation(messages);
+    console.log(conversation);
+  };
+
+  const handleCancel = async (e) => {
+    cancel.current = true;
   };
 
   const fieldStyle = {
@@ -61,9 +77,23 @@ function Ai() {
 
   return (
     <div className="containerStyle">
+      <div>
+        <select
+          id="dropdown"
+          value={selected}
+          onChange={handleModelChange}
+          className="dropdown"
+        >
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
       <TextareaAutosize
         value={input}
-        onChange={handleChange}
+        onChange={handleInputChange}
         style={fieldStyle}
       />
       <button onClick={handleClick} className="buttonStyle">
@@ -75,6 +105,9 @@ function Ai() {
         readOnly
         style={fieldStyle}
       />
+      <button onClick={handleCancel} className="buttonStyle">
+        X
+      </button>
     </div>
   );
 }
