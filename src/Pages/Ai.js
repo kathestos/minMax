@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import SecretsDataService from "../Services/secrets";
+import OpenAI from "openai";
+import TextareaAutosize from "react-textarea-autosize";
+import "./Styles.css";
 
 function Ai() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
+  const [conversation, setConversation] = useState([]);
+  let messages = [];
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -11,20 +16,36 @@ function Ai() {
   };
 
   const handleClick = async (e) => {
-    console.log(localStorage.token);
-    console.log(localStorage.user);
+    messages = conversation;
+    messages.push({ role: "user", content: input });
+    setConversation(messages);
+    const user = localStorage.user;
+    const token = localStorage.token;
     const secretName = "api key";
-    const secret = await SecretsDataService.get(`?name=${secretName}`);
-    setOutput(secret.data);
-    console.log(secret.data);
-  };
-
-  const containerStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
+    const query = `?user=${user}&token=${token}&name=${secretName}`;
+    const secret = await SecretsDataService.get(query);
+    let text = "";
+    if (secret.data !== 0) {
+      const openai = new OpenAI({
+        apiKey: secret.data,
+        dangerouslyAllowBrowser: true,
+      });
+      const stream = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo-1106",
+        // model: "gpt-4-1106-preview",
+        messages: conversation,
+        stream: true,
+      });
+      for await (const chunk of stream) {
+        let part = chunk.choices[0]?.delta?.content || "";
+        text += part;
+        setOutput(text);
+      }
+    } else {
+      setOutput("Wrong user");
+    }
+    messages.push({ role: "assistant", content: text });
+    setConversation(messages);
   };
 
   const fieldStyle = {
@@ -38,22 +59,22 @@ function Ai() {
     resize: "none",
   };
 
-  const buttonStyle = {
-    width: "20%",
-    height: "60px",
-    margin: "10px",
-    padding: "10px",
-    fontSize: "16px",
-    border: "1px solid black",
-  };
-
   return (
-    <div style={containerStyle}>
-      <textarea value={input} onChange={handleChange} style={fieldStyle} />
-      <button onClick={handleClick} style={buttonStyle}>
+    <div className="containerStyle">
+      <TextareaAutosize
+        value={input}
+        onChange={handleChange}
+        style={fieldStyle}
+      />
+      <button onClick={handleClick} className="buttonStyle">
         Go
       </button>
-      <textarea type="text" value={output} readOnly style={fieldStyle} />
+      <TextareaAutosize
+        type="text"
+        value={output}
+        readOnly
+        style={fieldStyle}
+      />
     </div>
   );
 }
