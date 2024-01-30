@@ -30,7 +30,7 @@ function Home() {
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid item xs={6} xl={3}>
           <Link to="/config">
-            <img className="images" src={iconsArray["novi logo"]} alt="" />
+            <img className="images" src={iconsArray["logo2"]} alt="" />
           </Link>
         </Grid>
         <Grid item xs={6} xl={3}>
