@@ -48,18 +48,18 @@ function Food() {
           </Link>
         </Grid>
         <Grid item xs={6} xl={3}>
-          <Link to={`/foods?type=${type}&subtype=${foodArray[5]}`}>
-            <img className="images" src={iconsArray[foodArray[5]]} alt="" />
-          </Link>
-        </Grid>
-        <Grid item xs={6} xl={3}>
-          <Link to={`/foods?type=${type}&subtype=${foodArray[2]}`}>
-            <img className="images" src={iconsArray[foodArray[2]]} alt="" />
-          </Link>
-        </Grid>
-        <Grid item xs={6} xl={3}>
           <Link to={`/foods?type=${type}&subtype=${foodArray[4]}`}>
             <img className="images" src={iconsArray[foodArray[4]]} alt="" />
+          </Link>
+        </Grid>
+        <Grid item xs={6} xl={3}>
+          <Link to={`/foods?type=${type}&subtype=${foodArray[1]}`}>
+            <img className="images" src={iconsArray[foodArray[1]]} alt="" />
+          </Link>
+        </Grid>
+        <Grid item xs={6} xl={3}>
+          <Link to={`/foods?type=${type}&subtype=${foodArray[3]}`}>
+            <img className="images" src={iconsArray[foodArray[3]]} alt="" />
           </Link>
         </Grid>
         <Grid item xs={6} xl={3}>
@@ -69,7 +69,7 @@ function Food() {
         </Grid>
         <Grid item xs={6} xl={3}>
           <Link to={`/`}>
-            <img className="images" src={iconsArray[foodArray[3]]} alt="" />
+            <img className="images" src={iconsArray[foodArray[2]]} alt="" />
           </Link>
         </Grid>
       </Grid>
